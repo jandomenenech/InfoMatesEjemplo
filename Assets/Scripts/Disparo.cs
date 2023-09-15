@@ -1,29 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class ControladorDeDisparo : MonoBehaviour
 {
     public DisparoVertical disparoVerticalScript;
+    public Rigidbody2D Rigidbody2;
+    public float velocidad;
 
     void Start()
     {
-
+        Rigidbody2 = GetComponent<Rigidbody2D>();  
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            // Cuando se presiona la tecla de espacio, activa el script de disparo vertical.
-            disparoVerticalScript.enabled = true;
-        }
-        else if (Input.GetKeyUp(KeyCode.Space))
-        {
-            // Cuando se suelta la tecla de espacio, desactiva el script de disparo vertical.
-            disparoVerticalScript.enabled = false;
-        }
+        Rigidbody2.velocity = Vector3.up * velocidad;
+        Destroy(Rigidbody2,3f);
     }
+       
 }
 
 
