@@ -11,11 +11,13 @@ public class NauJugador : MonoBehaviour
     private float minX, maxX, minY, maxY;
     public GameObject bala;
     public float TiempoDisparo;
+    private Rigidbody2D rb;
 
     void Start()
     {
         mainCamera = Camera.main;
         CalcularLimitesDeCamara();
+        rb = GetComponent<Rigidbody2D>();
     }
 
 
@@ -28,7 +30,6 @@ public class NauJugador : MonoBehaviour
         float movimientoVertical = Input.GetAxis("Vertical");
 
         Vector3 nuevaPosicion = transform.position + new Vector3(movimientoHorizontal * desplazamiento, movimientoVertical*desplazamientoY, 0);
-      
 
         transform.position = nuevaPosicion;
 
@@ -44,11 +45,7 @@ public class NauJugador : MonoBehaviour
         {
             shoot();
             TiempoDisparo = Time.time;
-                if (Time.time > TiempoDisparo +2F)
-            {
-                Destroy(bala);
-            }
-            
+                      
         }
     }
 
