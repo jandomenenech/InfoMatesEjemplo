@@ -10,8 +10,13 @@ public class NauJugador : MonoBehaviour
     private Camera mainCamera;
     private float minX, maxX, minY, maxY;
     public GameObject bala;
-    public float TiempoDisparo;
+    private float TiempoDisparo;
     private Rigidbody2D rb;
+    private float desplazamientoX;
+    private float desplazamientoY;
+
+    private float movimientoHorizontal = Input.GetAxis("Horizontal");
+    private float movimientoVertical = Input.GetAxis("Vertical");
 
     void Start()
     {
@@ -23,13 +28,30 @@ public class NauJugador : MonoBehaviour
 
     void Update()
     {
-        float desplazamiento = velocidad * Time.deltaTime;
-        float desplazamientoY = velocidadY * Time.deltaTime;
+        MovieminetoNave();
+        Disparo();
+    }
 
-        float movimientoHorizontal = Input.GetAxis("Horizontal");
-        float movimientoVertical = Input.GetAxis("Vertical");
+    public void CalcularLimitesDeCamara()
+    {
+        Vector3 esquinaInferiorIzquierda = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, 0));
+        Vector3 esquinaSuperiorDerecha = mainCamera.ViewportToWorldPoint(new Vector3(1, 1, 0)); 
 
-        Vector3 nuevaPosicion = transform.position + new Vector3(movimientoHorizontal * desplazamiento, movimientoVertical*desplazamientoY, 0);
+        minX = esquinaInferiorIzquierda.x;
+        maxX = esquinaSuperiorDerecha.x;
+        minY = esquinaInferiorIzquierda.y;
+        maxY = esquinaSuperiorDerecha.y;
+    }
+    public void posicionDisparo(float numX ,float numY)
+    {
+        GameObject bullet = Instantiate(bala, transform.position + new Vector3(movimientoHorizontal* desplazamientoX + numX, movimientoVertical * desplazamientoY + numY, 0), Quaternion.identity);
+    }
+    public void MovieminetoNave()
+    {
+        desplazamientoX = velocidad * Time.deltaTime;
+        desplazamientoY = velocidadY * Time.deltaTime;
+
+        Vector3 nuevaPosicion = transform.position + new Vector3(movimientoHorizontal * desplazamientoX, movimientoVertical * desplazamientoY, 0);
 
         transform.position = nuevaPosicion;
 
@@ -40,28 +62,16 @@ public class NauJugador : MonoBehaviour
         posicionActual.y = Mathf.Clamp(posicionActual.y, minY, maxY);
 
         transform.position = posicionActual;
-
-        if (Input.GetKey(KeyCode.Space) && Time.time > TiempoDisparo+0.3F)
+    }
+    public void Disparo()
+    {
+        if (Input.GetKey(KeyCode.Space) && Time.time > TiempoDisparo + 0.3F)
         {
-            shoot();
+            posicionDisparo(0.3f, 0.3f);
+            posicionDisparo(-0.3f, 0.3f);
             TiempoDisparo = Time.time;
-                      
+
         }
-    }
-
-    void CalcularLimitesDeCamara()
-    {
-        Vector3 esquinaInferiorIzquierda = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, 0));
-        Vector3 esquinaSuperiorDerecha = mainCamera.ViewportToWorldPoint(new Vector3(1, 1, 0)); 
-
-        minX = esquinaInferiorIzquierda.x;
-        maxX = esquinaSuperiorDerecha.x;
-        minY = esquinaInferiorIzquierda.y;
-        maxY = esquinaSuperiorDerecha.y;
-    }
-    public void shoot()
-    {
-        GameObject bullet = Instantiate(bala, transform.position, Quaternion.identity);
     }
 }
 

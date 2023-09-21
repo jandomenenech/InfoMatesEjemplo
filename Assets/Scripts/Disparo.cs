@@ -11,30 +11,30 @@ public class ControladorDeDisparo : MonoBehaviour
     public float velocidad;
     private float tiempoDeVida = 2.0f;
     private Alien Marciano;
+    
 
     void Start()
     {
         Rigidbody2 = GetComponent<Rigidbody2D>();
         Rigidbody2.velocity = Vector3.up * velocidad;
+        /*Vector2 costatSuperior = Camera.main.ViewportToWorldPoint(new Vector2(0, 1));
+        if (transform.position.y <= costatSuperior.y)
+        {
+
+            Destroy(gameObject);
+
+        }*/
         Destroy(gameObject, tiempoDeVida);
         
     }
-    public void muerte(Collision2D collision) { 
-
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Alien"))
-        {
-            
-            Marciano = collision.gameObject.GetComponent<Alien>();
-
-            
-            if (Marciano != null)
-            {
-                
-                Marciano.DestruirAlien();
-            }
-
-            Destroy(gameObject);
+    public void depAlien(Collision2D collision)
+    {
+        Marciano = collision.gameObject.GetComponent<Alien>();
+        if (Marciano != null)
+        { 
+            Marciano.DestruirAlien();
         }
+        Destroy(gameObject);
     }
 
 
