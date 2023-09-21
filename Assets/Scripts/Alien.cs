@@ -7,8 +7,8 @@ public class Alien : MonoBehaviour
     public Rigidbody2D body;
     public ControladorDeDisparo disparo;
     public float velocitat;
+    
 
-    // Start is called before the first frame update
     void Start()
     {
         body= GetComponent<Rigidbody2D>();
@@ -19,7 +19,6 @@ public class Alien : MonoBehaviour
     void Update()
     {
         body.velocity = Vector3.right * velocitat;
-        
     }
     public void DestruirAlien()
     {
