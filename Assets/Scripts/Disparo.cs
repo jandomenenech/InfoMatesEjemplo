@@ -17,29 +17,33 @@ public class ControladorDeDisparo : MonoBehaviour
     {
         Rigidbody2 = GetComponent<Rigidbody2D>();
         Rigidbody2.velocity = Vector3.up * velocidad;
-        /*Vector2 costatSuperior = Camera.main.ViewportToWorldPoint(new Vector2(0, 1));
-        if (transform.position.y <= costatSuperior.y)
-        {
-
-            Destroy(gameObject);
-
-        }*/
         Destroy(gameObject, tiempoDeVida);
         
     }
-    public void depAlien(Collision2D collision)
+    void Contacto (Collision2D collision)
     {
-        Marciano = collision.gameObject.GetComponent<Alien>();
-        if (Marciano != null)
-        { 
-            Marciano.DestruirAlien();
+        if (collision.gameObject.name == "Numero")
+        {
+            Destroy(collision.gameObject);
+            
         }
-        Destroy(gameObject);
+
     }
-
-
-
+    private void onTriggerEnter2D(Collider2D objecteTocat)
+    {
+        if (objecteTocat.tag == "Numero")
+        {
+            Destroy(gameObject);
+        }
+    }
 }
+
+
+
+
+
+
+
 
 
 

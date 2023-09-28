@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class NauJugador : MonoBehaviour
@@ -14,9 +15,10 @@ public class NauJugador : MonoBehaviour
     private Rigidbody2D rb;
     private float desplazamientoX;
     private float desplazamientoY;
+    public GameObject PreabExplosio;
 
-    private float movimientoHorizontal = Input.GetAxis("Horizontal");
-    private float movimientoVertical = Input.GetAxis("Vertical");
+    private float movimientoHorizontal;
+    private float movimientoVertical;
 
     void Start()
     {
@@ -28,6 +30,9 @@ public class NauJugador : MonoBehaviour
 
     void Update()
     {
+        movimientoHorizontal = Input.GetAxis("Horizontal");
+        movimientoVertical = Input.GetAxis("Vertical");
+
         MovieminetoNave();
         Disparo();
     }
@@ -71,6 +76,17 @@ public class NauJugador : MonoBehaviour
             posicionDisparo(-0.3f, 0.3f);
             TiempoDisparo = Time.time;
 
+        }
+         
+        
+
+        
+    }
+    private void onTriggerEnter2D (Collider2D objecteTocat)
+    {
+        if (objecteTocat.tag == "Numero")
+        {
+            Destroy(gameObject);
         }
     }
 }
